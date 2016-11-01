@@ -1,7 +1,9 @@
-var result = 0 ;
-       
-for (var i = 2; i < process.argv.length; i++) {  
-	result += Number(process.argv[i]);
-}  
+var fs = require('fs'),
+	filename = process.argv[2];
+var buffer = fs.readFileSync(filename).toString().split('\n');
 
-console.log(result);
+if(buffer.length > 0){
+	console.log(buffer.length -1);
+}else{
+	console.log(buffer.length);
+}
