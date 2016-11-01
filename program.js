@@ -1,14 +1,19 @@
 var http = require('http'),
+	async = require('async'),
 	bl = require('bl'),
-	url = process.argv[2];
+	urls = process.argv.slice(2);
 
-http.get(url,function(response){
-	response.pipe(bl(function (err, data) {
-		if(err){
-			throw(err);
-		}
-
-		console.log(data.length);
-		console.log(data.toString());
-	}))  
-});
+async.map(urls,function(url,callback){
+	http.get(url,function(response){
+		response.pipe(bl(function (err, data) {
+			if(err){
+				callback(err);
+			}
+			callback(null,data.toString());
+		}))  
+	});
+},function(err,results){
+	results.map(function(item,index){
+		console.log(item);
+	});
+})
