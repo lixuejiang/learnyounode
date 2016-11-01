@@ -1,11 +1,8 @@
-var dirext = require('./dirext');
+var http = require('http'),
+	url = process.argv[2];
 
-dirext(process.argv[2],process.argv[3],function(err,list){
-	if(err){
-		console.log(err);
-		return;
-	}
-	list.map(function(item,index){
-		console.log(item);
-	});
+http.get(url,function(response){
+	response.on('data',function(data){
+		console.log(data.toString());
+	})
 });
